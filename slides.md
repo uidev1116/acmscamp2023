@@ -1,208 +1,494 @@
 ---
-theme: seriph
-background: https://source.unsplash.com/collection/94734566/1920x1080
+theme: light-icons
 class: text-center
-highlighter: shiki
 lineNumbers: false
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
+  ## a-blog cms Training Camp 2023 Presentation slides
 
-  Learn more at [Sli.dev](https://sli.dev)
 drawings:
   persist: false
 transition: slide-left
-title: Welcome to Slidev
-mdc: true
+title: ECテーマをつかって一覧からカートに追加するボタンを実装してみよう！
+layout: intro
+colorSchema: 'light'
+htmlAttrs:
+  lang: 'ja'
+image: '#FFFFFF'
 ---
 
-# Welcome to Slidev
+  <div class="absolute h-full w-full bg-white"></div>
+  <div class="absolute pt-6 left-12">
+    <span @click="next" class="p-1 rounded cursor-pointer hover:bg-white hover:bg-opacity-10 hover:opacity-90 opacity-60 flex justify-center items-center">
+      Press Space for next page  <light-icon icon="arrow-narrow-right" size="24px"/>
+    </span>
+  </div>
 
-Presentation slides for developers
+  <div class="isolate grid place-items-center h-full z-1">
+    <div>
+      <div class="text-5xl/normal text-black" style="font-weight:600;" >
+        ECテーマをつかって <br /> 一覧からカートに追加するボタンを <br /> 実装してみよう！
+      </div>
+      <span class="text-xl text-primary-lighter" style="font-weight:500;" >
+        Nov. 17, 2023 a-blog cms Training Camp 2023 <light-icon class="font-bold" icon="rocket"/>
+      </span>
+    </div>
+  </div>
 
-<div class="pt-12">
-  <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
-    Press Space for next page <carbon:arrow-right class="inline"/>
-  </span>
+
+---
+layout: self-intro
+title: 自己紹介
+image: '/profile.jpg'
+---
+
+# 宇井 陸登
+
+有限会社アップルップル<br />
+フロントエンドエンジニア
+
+a-blog cmsの開発や、a-blog cms でECを構築するための拡張アプリ、テーマの開発業務を担当しています。
+
+---
+layout: center-image
+title: 一覧からカートに追加するイメージ
+image: '/add-to-cart.svg'
+---
+  <div class="mb-4">
+    <span class="text-4xl text-black font-bold" >
+      商品一覧ページから、カートに商品を追加できる
+     <light-icon icon="shopping-cart" />
+    </span>
+  </div>
+
+---
+layout: center-image
+title: コンバージョン率が向上するイメージ
+image: '/data-reports.svg'
+---
+  <div class="mb-4">
+    <span class="text-4xl text-black font-bold" >
+      ユーザビリティ及び、コンバージョン率の向上
+     <light-icon icon="chart-line" />
+    </span>
+  </div>
+
+---
+layout: section-title
+title: デザイナーさん、ディレクターさん向けではないことをお知らせ
+---
+
+# エンジニアさん向けの内容です
+
+---
+layout: section-title
+title: ECテーマについて
+---
+
+<h1 class="font-bold">ECテーマについて 🛒</h1>
+
+---
+layout: heading-and-body
+title: 拡張アプリ「ShoppingCart」を実装したテーマ
+---
+<template #heading>
+<h1>拡張アプリ「ShoppingCart」を実装したテーマ</h1>
+</template>
+
+<template #body>
+
+<div class="mt-20 text-3xl">
+
+- ショッピングカート機能
+- 決済フォーム機能
+- Squareと連携したオンライン決済機能
+
 </div>
 
-<div class="abs-br m-6 flex gap-2">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="text-xl slidev-icon-btn opacity-50 !border-none !hover:text-white">
-    <carbon:edit />
-  </button>
-  <a href="https://github.com/slidevjs/slidev" target="_blank" alt="GitHub" title="Open in GitHub"
-    class="text-xl slidev-icon-btn opacity-50 !border-none !hover:text-white">
-    <carbon-logo-github />
+</template>
+
+---
+layout: section-title
+title: HTMLとCSSのカスタマイズで見た目を整えればECサイトを納品できる
+class: text-center
+---
+
+<h1 class="font-bold">HTMLとCSSのカスタマイズで <br />見た目を整えれば<br />ECサイトを納品できる</h1>
+
+---
+layout: heading-and-body
+title: 料金について
+---
+<template #heading>
+<h1>料金について</h1>
+</template>
+
+<template #body>
+
+<div class="mt-20 text-3xl">
+
+- ECテーマと 拡張アプリ「ShoppingCart」は無料 🎊
+- a-blog cms のライセンス料金だけでECサイトを公開できる
+
+</div>
+
+</template>
+
+---
+layout: image-left
+image: /how-to-download.png
+equal: true
+title: ダウンロード
+---
+
+<div class="text-center">
+  <h1 class="font-medium leading-relaxed">
+  <a href="https://developer.a-blogcms.jp/document/ec-cart/Install.html" target="_blank" rel="noopener noreferrer">
+    ダウンロード <light-icon icon="download" size="48px"/>
   </a>
+  </h1>
 </div>
 
-<!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
--->
-
 ---
-transition: fade-out
----
-
-# What is Slidev?
-
-Slidev is a slides maker and presenter designed for developers, consist of the following features
-
-- 📝 **Text-based** - focus on the content with Markdown, and then style them later
-- 🎨 **Themable** - theme can be shared and used with npm packages
-- 🧑‍💻 **Developer Friendly** - code highlighting, live coding with autocompletion
-- 🤹 **Interactive** - embedding Vue components to enhance your expressions
-- 🎥 **Recording** - built-in recording and camera view
-- 📤 **Portable** - export into PDF, PNGs, or even a hostable SPA
-- 🛠 **Hackable** - anything possible on a webpage
-
-<br>
-<br>
-
-Read more about [Why Slidev?](https://sli.dev/guide/why)
-
-<!--
-You can have `style` tag in markdown to override the style for the current page.
-Learn more: https://sli.dev/guide/syntax#embedded-styles
--->
-
-<style>
-h1 {
-  background-color: #2B90B6;
-  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-}
-</style>
-
-<!--
-Here is another comment.
--->
-
----
-layout: default
+layout: image-left
+image: /demo-site.png
+equal: true
+title: デモサイト
 ---
 
-# Table of contents
+<div class="text-center">
+  <h1 class="font-medium leading-relaxed">
+  <a href="https://appleple.shop" target="_blank" rel="noopener noreferrer">
+    DEMO
+  </a>
+  </h1>
+</div>
+
+---
+layout: dynamic-image
+image: '/add-to-cart-in-detail-page.png'
+equal: true
+left: true
+title: 商品詳細ページからカートへ追加ができる
+---
+
+<h1 class="font-bold">商品詳細ページから<br/>カートへ追加ができる</h1>
+
+
+---
+layout: dynamic-image-with-body
+image: '/web-shopping.svg'
+equal: false
+left: false
+title: 一覧からカートに追加できない問題
+---
+
+<template #heading>
+<h1 class="!text-3xl">一覧からカートに追加できない問題</h1>
+</template>
+
+<template #body>
+
+<div class="mt-20 text-2xl">
+
+- 毎回カートに商品を追加するために詳細ページに遷移するのが手間
+- ユーザーの購入意欲減少の原因
+
+</div>
+
+</template>
+
+---
+layout: section-title
+title: 🤦
+---
+
+<div class="grid place-content-center h-full">
+  <span class="text-8xl">🤦</span>
+</div>
+
+---
+layout: section-title
+title: ECサイトの商品一覧ページから、カートに商品を追加できれば解決
+class: text-center
+---
+
+<h1 class="font-bold">商品一覧ページから、<br />カートに追加できれば解決🥹</h1>
+
+---
+layout: section-title
+title: 実装方法紹介します！
+class: text-center
+---
+
+<h1 class="font-bold">実装方法紹介します🙌</h1>
+
+---
+layout: section-title
+title: 完成品デモ
+class: text-center
+---
+
+<h1 class="font-bold">完成品デモ</h1>
+
+<!-- 動画でデモしたいかも -->
+
+---
+layout: section-title
+title: 仕組みの解説
+class: text-center
+---
+
+<h1 class="font-bold">仕組みの解説</h1>
+
+---
+layout: dynamic-image-with-body
+image: 'https://source.unsplash.com/collection/94734566/1920x1080'
+equal: true
+left: false
+title: ShoppingCart_AddItem
+---
+
+
+<template #heading>
+<h1 class="!text-4xl">ShoppingCart_AddItem</h1>
+</template>
+
+<template #body>
+
+<div class="mt-20 text-xl">
+
+- カートに商品を追加するためのPOSTモジュール
+- 商品のエントリーIDと、数量を指定してフォームを送信（POST）する
+
+</div>
+
+</template>
+
+---
+layout: dynamic-image
+image: '/network.png'
+upperImage: '/expanded-network.png'
+equal: true
+left: false
+title: 開発者ツールから実際の通信を確認してみる
+---
+
+<h1 class="font-bold">
+  開発者ツールから<br />実際の通信を確認🔍
+</h1>
+
+---
+layout: dynamic-image-with-body
+image: 'parker-coffman-rg60lmL4AUs-unsplash.jpg'
+equal: false
+left: false
+title: 「カートに入れる」ボタン
+---
+
+
+<template #heading>
+<h1 class="!text-4xl">「カートに入れる」ボタン</h1>
+</template>
+
+<template #body>
+
+<div class="mt-20 text-xl">
 
 ```html
-<Toc minDepth="1" maxDepth="1"></Toc>
+<!-- include/entry/body-products.html -->
+
+<div class="js-shopping-cart">
+  <add-to-cart
+    :eid="{entry:loop.eid}"
+    <!-- BEGIN_IF [{item_stock}/isset] -->
+    :stock="{item_stock}"
+    <!-- ELSE -->
+    :stock="null"
+    <!-- END_IF -->
+  ></add-to-cart>
+</div>
 ```
 
-<Toc maxDepth="1"></Toc>
+</div>
 
----
-transition: slide-up
-level: 2
----
-
-# Navigation
-
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/navigation.html)
-
-## Keyboard Shortcuts
-
-|     |     |
-| --- | --- |
-| <kbd>right</kbd> / <kbd>space</kbd>| next animation or slide |
-| <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd> | previous slide |
-| <kbd>down</kbd> | next slide |
-
-<!-- https://sli.dev/guide/animations.html#click-animations -->
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-  alt=""
-/>
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
+</template>
 
 ---
 layout: image-right
-image: https://source.unsplash.com/collection/94734566/1920x1080
+image: /vue.svg
+equal: true
+title: Vue.js
 ---
 
-# Code
-
-Use code snippets and get the highlighting directly![^1]
-
-```ts {all|2|1-6|9|all}
-interface User {
-  id: number
-  firstName: string
-  lastName: string
-  role: string
-}
-
-function updateUser(id: number, update: User) {
-  const user = getUser(id)
-  const newUser = { ...user, ...update }
-  saveUser(id, newUser)
-}
-```
-
-<arrow v-click="[3, 4]" x1="400" y1="420" x2="230" y2="330" color="#564" width="3" arrowSize="1" />
-
-[^1]: [Learn More](https://sli.dev/guide/syntax.html#line-highlighting)
-
-<style>
-.footnotes-sep {
-  @apply mt-20 opacity-10;
-}
-.footnotes {
-  @apply text-sm opacity-75;
-}
-.footnote-backref {
-  display: none;
-}
-</style>
+<div>
+  <h1 class="text-black" >Vue.js</h1>
+</div>
+<div class="leading-snug text-black dark:text-white text-opacity-60 dark:text-opacity-60">
+  JavaScriptのライブラリです。
+  <br/><br/>
+  ユーザービリティの高いUIが構築できる！
+</div>
 
 ---
+layout: section-title
+title: 安心してください
+class: text-center
+---
 
-# Components
+<h1 class="font-bold">安心してください🍵</h1>
 
-<div grid="~ cols-2 gap-4">
-<div>
+---
+layout: center-image
+title: HTMLとCSSでカスタマイズできます
+image: '/static-website.svg'
+class: text-center
+---
 
-You can use Vue components directly inside your slides.
+<h1 class="font-bold text-4xl mb-4">HTMLとCSSでカスタマイズできます</h1>
 
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
+---
+layout: heading-and-body
+title: <add-to-cart></add-to-cart>の説明
+---
+
+<template #heading>
+<h1 class="!text-3xl">
+
+  `<add-to-cart></add-to-cart>`
+
+</h1>
+</template>
+
+<template #body>
+
+<div class="mt-20 text-2xl">
+
+`<add-to-cart :eid="{eid}" :stock="{stock}"></add-to-cart>` が include/vue-template/add-to-cart.html で定義されているHTMLに置き換わる
+
+`:eid` 属性に指定されたエントリーIDが次の input 要素を生成
 
 ```html
-<Counter :count="10" />
+<!-- 例えば :eidが42の場合 -->
+<input type="hidden" name="eid" value="42">
+<input type="hidden" name="cart[]" value="eid">
 ```
 
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
-
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
+このフォームで、ShoppingCart_AddItem モジュールを実行すると、エントリーIDが42の商品が、カートに追加される
 
 </div>
-<div>
+
+</template>
+
+---
+layout: section-title
+title: Entry_Summary の場合、entry:loop で {eid} を :eid 属性に指定すれば良い🤔
+class: text-center
+---
+
+<h1 class="font-bold !text-4xl">
+Entry_Summary の場合、<br />entry:loop で {eid} を <code>:eid</code> 属性に指定すれば良い🤔
+</h1>
 
 ```html
-<Tweet id="1390115482657726468" />
+<!-- BEGIN entry:loop -->
+...
+<div class="js-shopping-cart">
+  <add-to-cart
+    :eid="{eid}"
+    <!-- BEGIN_IF [{item_stock}/isset] -->
+    :stock="{item_stock}"
+    <!-- ELSE -->
+    :stock="null"
+    <!-- END_IF -->
+  ></add-to-cart>
+</div>
+...
+<!-- END entry:loop -->
 ```
 
-<Tweet id="1390115482657726468" scale="0.65" />
+---
+layout: section-title
+title: 動画でできなかった場合のデモ
+class: text-center
+---
+
+# 動画でできなかった場合のデモを見せたい
+
+---
+layout: heading-and-body
+title: 「カートに入れる」ボタン毎に異なる表示をしたい部分がうまく制御できていません。
+---
+<template #heading>
+<h1 class="!text-3xl">
+「カートに入れる」ボタン毎に表示を変えたい部分ができていない
+</h1>
+</template>
+
+<template #body>
+
+<div class="mt-20 text-2xl">
+
+- 色とサイズのフォーム項目
+- カートへの商品の追加が成功したときに表示されるモーダル内の画像
 
 </div>
+
+</template>
+
+---
+layout: bubble-frame-only
+title: つまり…
+class: px-20
+---
+
+<h1 class="font-bold">つまり</h1>
+
+<div grid="~ cols-2 gap-2" class="mt-16">
+
+<h2 class="font-bold">できる🙆</h2>
+
+<h2 class="font-bold">できない🙅</h2>
+
+
+<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true" alt="">
+
+<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true" alt="">
+
 </div>
 
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
 
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
+---
+layout: section-title
+title: まとめ
+class: text-center font-bold
+---
 
+# まとめ
+
+---
+layout: section-title
+title: ECテーマなら、HTMLとCSSとちょっとの Vue の知識で、一覧からカートに商品を追加するボタンの実装ができる
+class: text-center font-bold
+---
+
+<h1 class="!text-3xl !leading-10">ECテーマなら、<br />HTMLとCSSとちょっとの Vue の知識で、<br />一覧からカートに商品を追加するボタンの実装ができる👏</h1>
+
+---
+layout: cover
+title: a-blog cms Ver. 3.1 に対応したバージョンをリリース
+background: '/release-new-version.png'
+class: text-center
+---
+
+<h1 class="!text-5xl">Ver. 3.1 対応のバージョンをリリース</h1>
+
+---
+layout: section-title
+title: ご清聴ありがとうございました
+class: text-center font-bold
+---
+
+# ご清聴ありがとうございました🙇
 
 ---
 class: px-20

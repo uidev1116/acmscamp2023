@@ -1,0 +1,7 @@
+.slidev-layout h1 + p {
+  @apply text-sm opacity-70;
+}
+
+.slidev-layout p {
+  @apply leading-8;
+}

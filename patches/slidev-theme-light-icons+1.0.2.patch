@@ -1,0 +1,181 @@
+diff --git a/node_modules/slidev-theme-light-icons/layouts/dynamic-image.vue b/node_modules/slidev-theme-light-icons/layouts/dynamic-image.vue
+index fb88358..9ffff56 100644
+--- a/node_modules/slidev-theme-light-icons/layouts/dynamic-image.vue
++++ b/node_modules/slidev-theme-light-icons/layouts/dynamic-image.vue
+@@ -1,87 +1,89 @@
+ 
+-  <template>
+-  <!-- Image is at Left -->
+-  <div v-if="left" class="relative h-full intro grid grid-cols-12">
+-    <div class="absolute h-full w-full" style="z-index: -10">
+-      <BubbleFrame v-if="!hideFrame"/>
+-    </div>
+-    <!-- Image -->
+-    <div
+-      :class="[equal ? 'col-span-6' : 'col-span-4', 'my-auto h-full']"
+-      :style="{ zIndex: '-1' }"
+-    >
++<template>
++  <div class="w-full h-full">
++    <!-- Image is at Left -->
++    <div v-if="left" class="relative h-full intro grid grid-cols-12">
++      <div class="absolute h-full w-full" style="z-index: -10">
++        <BubbleFrame v-if="!hideFrame"/>
++      </div>
++      <!-- Image -->
+       <div
+-        v-if="upperImage"
+-        class="absolute top-1/2 transform -translate-y-1/2"
+-        :class="left ? 'left-[80px]' : 'right-[80px]'"
+-        :style="{
+-          boxShadow: '0px 10px 30px rgba(0,0,0,0.7)',
+-          zIndex: '5',
+-        }"
++        :class="[equal ? 'col-span-6' : 'col-span-4', 'my-auto h-full']"
++        :style="{ zIndex: '-1' }"
+       >
+-        <img :src="upperImage" class="w-[450px]" alt="" loading="lazy" />
++        <div
++          v-if="upperImage"
++          class="absolute top-1/2 transform -translate-y-1/2"
++          :class="left ? 'left-[80px]' : 'right-[80px]'"
++          :style="{
++            boxShadow: '0px 10px 30px rgba(0,0,0,0.7)',
++            zIndex: '5',
++          }"
++        >
++          <img :src="upperImage" class="w-[450px]" alt="" loading="lazy" />
++        </div>
++        <div
++          v-if="image"
++          class="my-auto h-full"
++          :style="upperImage ? { ...style, filter: 'blur(3px)' } : { ...style }"
++        ></div>
+       </div>
++      <!-- Layout -->
+       <div
+-        v-if="image"
+-        class="my-auto h-full"
+-        :style="upperImage ? { ...style, filter: 'blur(3px)' } : { ...style }"
+-      ></div>
+-    </div>
+-    <!-- Layout -->
+-    <div
+-      :class="[
+-        'slidev-layout my-auto',
+-        image ? 'col-span-6' : 'col-span-12',
+-        equal ? 'col-span-6' : 'col-span-8',
+-      ]"
+-    >
+-      <slot />
++        :class="[
++          'slidev-layout my-auto',
++          image ? 'col-span-6' : 'col-span-12',
++          equal ? 'col-span-6' : 'col-span-8',
++        ]"
++      >
++        <slot />
++      </div>
+     </div>
+-  </div>
+ 
+-  <!-- Image is at Right -->
+-  <div v-else class="relative h-full intro grid grid-cols-12">
+-    <div class="absolute h-full w-full" style="z-index: -10">
+-      <backgroundBubble />
+-    </div>
+-    <!-- Layout -->
+-    <div
+-      :class="[
+-        'slidev-layout my-auto',
+-        image ? 'col-span-6' : 'col-span-12',
+-        equal ? 'col-span-6' : 'col-span-8',
+-      ]"
+-    >
+-      <slot />
+-    </div>
+-    <!-- Image -->
+-    <div
+-      :class="[equal ? 'col-span-6' : 'col-span-4', 'my-auto h-full']"
+-      :style="{ zIndex: '-1' }"
+-    >
++    <!-- Image is at Right -->
++    <div v-else class="relative h-full intro grid grid-cols-12">
++      <div class="absolute h-full w-full" style="z-index: -10">
++        <BubbleFrame v-if="!hideFrame"/>
++      </div>
++      <!-- Layout -->
+       <div
+-        v-if="upperImage"
+-        class="absolute top-1/2 transform -translate-y-1/2"
+-        :class="left ? 'left-[80px]' : 'right-[80px]'"
+-        :style="{
+-          boxShadow: '0px 10px 30px rgba(0,0,0,0.7)',
+-          zIndex: '5',
+-        }"
++        :class="[
++          'slidev-layout my-auto',
++          image ? 'col-span-6' : 'col-span-12',
++          equal ? 'col-span-6' : 'col-span-8',
++        ]"
+       >
+-        <img :src="upperImage" class="w-[450px]" alt="" loading="lazy" />
++        <slot />
+       </div>
++      <!-- Image -->
+       <div
+-        v-if="image"
+-        class="my-auto h-full"
+-        :style="
+-          upperImage
+-            ? {
+-                ...style,
+-                filter: 'blur(3px)',
+-              }
+-            : { ...style }
+-        "
+-      ></div>
++        :class="[equal ? 'col-span-6' : 'col-span-4', 'my-auto h-full']"
++        :style="{ zIndex: '-1' }"
++      >
++        <div
++          v-if="upperImage"
++          class="absolute top-1/2 transform -translate-y-1/2"
++          :class="left ? 'left-[80px]' : 'right-[80px]'"
++          :style="{
++            boxShadow: '0px 10px 30px rgba(0,0,0,0.7)',
++            zIndex: '5',
++          }"
++        >
++          <img :src="upperImage" class="w-[450px]" alt="" loading="lazy" />
++        </div>
++        <div
++          v-if="image"
++          class="my-auto h-full"
++          :style="
++            upperImage
++              ? {
++                  ...style,
++                  filter: 'blur(3px)',
++                }
++              : { ...style }
++          "
++        ></div>
++      </div>
+     </div>
+   </div>
+ </template>
+diff --git a/node_modules/slidev-theme-light-icons/utils/index.ts b/node_modules/slidev-theme-light-icons/utils/index.ts
+index d590568..365d41a 100644
+--- a/node_modules/slidev-theme-light-icons/utils/index.ts
++++ b/node_modules/slidev-theme-light-icons/utils/index.ts
+@@ -6,8 +6,7 @@ export function handleBackground(
+   background?: string,
+   dim = false
+ ): CSSProperties {
+-  const isColor =
+-    background && background[0] === "#" && background.startsWith("rgb");
++  const isColor = background && ['#', 'rgb', 'hsl'].some(v => background.indexOf(v) === 0);
+ 
+   const style = {
+     background: isColor ? background : undefined,

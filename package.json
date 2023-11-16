@@ -5,11 +5,19 @@
   "scripts": {
     "build": "slidev build",
     "dev": "slidev --open",
-    "export": "slidev export"
+    "export": "slidev export",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@slidev/cli": "^0.43.15",
     "@slidev/theme-default": "latest",
-    "@slidev/theme-seriph": "latest"
+    "@slidev/theme-seriph": "latest",
+    "slidev-theme-light-icons": "^1.0.2"
+  },
+  "slidev": {
+    "colorSchema": "light"
+  },
+  "devDependencies": {
+    "patch-package": "^8.0.0"
   }
 }
