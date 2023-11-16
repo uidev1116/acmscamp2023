@@ -9,14 +9,13 @@ drawings:
   persist: false
 transition: slide-left
 title: ECテーマをつかって一覧からカートに追加するボタンを実装してみよう！
-layout: intro
+layout: title
 colorSchema: 'light'
 htmlAttrs:
   lang: 'ja'
 image: '#FFFFFF'
 ---
 
-  <div class="absolute h-full w-full bg-white"></div>
   <div class="absolute pt-6 left-12">
     <span @click="next" class="p-1 rounded cursor-pointer hover:bg-white hover:bg-opacity-10 hover:opacity-90 opacity-60 flex justify-center items-center">
       Press Space for next page  <light-icon icon="arrow-narrow-right" size="24px"/>
@@ -367,7 +366,7 @@ title: <add-to-cart></add-to-cart>の説明
 
 `:eid` 属性に指定されたエントリーIDが次の input 要素を生成
 
-```html
+```html {2}
 <!-- 例えば :eidが42の場合 -->
 <input type="hidden" name="eid" value="42">
 <input type="hidden" name="cart[]" value="eid">
@@ -389,7 +388,7 @@ class: text-center
 Entry_Summary の場合、<br />entry:loop で {eid} を <code>:eid</code> 属性に指定すれば良い🤔
 </h1>
 
-```html
+```html {all|5}
 <!-- BEGIN entry:loop -->
 ...
 <div class="js-shopping-cart">
@@ -456,6 +455,483 @@ class: px-20
 
 </div>
 
+---
+layout: section-title
+title: 実装方法の解説
+class: text-center font-bold
+---
+
+# 実装方法の解説 🧑‍🏫
+
+---
+layout: heading-and-body
+title: Vue.js の名前付きスロット機能を使って解決
+image: '/add-to-cart.svg'
+---
+<template #heading>
+<h1 class="!text-3xl">
+【Vue.js】 名前付きスロット機能
+</h1>
+</template>
+
+<template #body>
+
+<div class="mt-20 text-2xl">
+
+- Vue.js の機能
+- コンポーネント毎にどのようなHTMLを表示するか変更できる
+- a-blog cms でいうと、テンプレートの継承機能
+
+</div>
+
+</template>
+
+---
+layout: bubble-frame-only
+title: つまり…
+class: px-20
+---
+
+<h1 class="font-bold !text-4xl !mb-8">テンプレートの継承機能とやりたいことは同じ</h1>
+
+<div grid="~ cols-2 gap-2" m="-t-2">
+
+<h2 class="font-bold">a-blog cms</h2>
+
+<h2 class="font-bold">Vue.js</h2>
+
+
+```html
+<!-- 継承されるテンプレート -->
+<header>ヘッダーは共通パーツ</header>
+
+@section(main)
+  <h2>継承元のコンテンツ</h2>
+@endsection
+
+<!-- 継承するテンプレート -->
+@extends(/layout/base.html)
+
+@section(main)
+  <h2>継承したメインのコンテンツ</h2>
+@endsection
+```
+
+```html
+<!-- 継承されるテンプレート -->
+<template>
+  <header>ヘッダーは共通パーツ</header>
+
+  <slot name="main">
+    <h2>継承元のコンテンツ</h2>
+  </slot>
+</template>
+
+<!-- 継承するテンプレート -->
+<base>
+  <template #main>
+    <h2>継承したメインのコンテンツ</h2>
+  </template>
+</base>
+```
+
+</div>
+
+---
+layout: heading-and-body
+title: 色とサイズの項目をスロットで動的化 その1
+---
+
+<style>
+  pre {
+    max-height: 430px!important;
+  }
+</style>
+
+<template #heading>
+<h1 class="!text-3xl">
+色とサイズの項目をスロットで動的化
+</h1>
+</template>
+
+<template #body>
+
+<div class="">
+
+```html {6-35}
+<!-- include/vue-template/add-to-cart.html -->
+<script id="AddToCart" type="text/x-template" class="check-csrf-token">
+  <form ref="form" @submit.prevent="addToCart">
+    <div class="entry-price-bottom-box">
+      <table v-if="remain > 0" class="entry-item-select-table">
+        <!-- BEGIN color:veil -->
+        <tr>
+          <th>色選択</th>
+          <td>
+            <select name="item_color">
+              <option value="">選択してください</option>
+              <!-- BEGIN color:loop -->
+              <option value="{color}">{color}</option>
+              <!-- END color:loop -->
+              <input type="hidden" name="field[]" value="item_color" />
+              <input type="hidden" name="item_color:validator#required" />
+            </select>
+          </td>
+        </tr>
+        <!-- END color:veil -->
+        <!-- BEGIN size:veil -->
+        <tr>
+          <th>サイズ</th>
+          <td>
+            <select name="item_size">
+              <option value="">選択してください</option>
+              <!-- BEGIN size:loop -->
+              <option value="{size}">{size}</option>
+              <!-- END size:loop -->
+              <input type="hidden" name="field[]" value="item_size" />
+              <input type="hidden" name="item_size:validator#required" />
+            </select>
+          </td>
+        </tr>
+        <!-- END size:veil -->
+        <tr>
+          <th>個数</th>
+          <td>
+            <quantity-select
+              :max-quantity="remain"
+              name="quantity"
+            />
+            <input type="hidden" name="cart[]" value="quantity">
+          </td>
+        </tr>
+      </table>
+    </div>
+    ...
+  </form>
+  ...
+</script>
+```
+
+</div>
+
+</template>
+
+---
+layout: heading-and-body
+title: 色とサイズの項目をスロットで動的化 その2
+---
+
+<template #heading>
+<h1 class="!text-3xl">
+色とサイズの項目をスロットで動的化
+</h1>
+</template>
+
+<template #body>
+
+<div class="">
+
+```html {6}
+<!-- include/vue-template/add-to-cart.html -->
+<script id="AddToCart" type="text/x-template" class="check-csrf-token">
+  <form ref="form" @submit.prevent="addToCart">
+    <div class="entry-price-bottom-box">
+      <table v-if="remain > 0" class="entry-item-select-table">
+        <slot name="form-header"></slot>
+        <tr>
+          <th>個数</th>
+          <td>
+            <quantity-select
+              :max-quantity="remain"
+              name="quantity"
+            />
+            <input type="hidden" name="cart[]" value="quantity">
+          </td>
+        </tr>
+      </table>
+    </div>
+    ...
+  </form>
+  ...
+</script>
+```
+
+</div>
+
+</template>
+
+---
+layout: heading-and-body
+title: モーダルの画像をスロットで動的化 その1
+---
+
+<template #heading>
+<h1 class="!text-3xl">
+モーダルの画像をスロットで動的化
+</h1>
+</template>
+
+<template #body>
+
+<div class="">
+
+```html {16-44}
+<!-- include/vue-template/add-to-cart.html -->
+<script id="AddToCart" type="text/x-template" class="check-csrf-token">
+  ...
+  <modal
+    :isOpen="added"
+    :onClose="() => setAdded(false)"
+    :closeTimeout="300"
+    aria-labelledby="shopping-cart-modal-title"
+    aria-describedby="shopping-cart-modal-content"
+  >
+    <template #header>
+      <h2 id="shopping-cart-modal-title" class="modal-title">「{{ title }}」をカートに追加しました</h2>
+    </template>
+    <template #default>
+      <div id="shopping-cart-modal-content" class="modal-img-wrap">
+        <!-- BEGIN_IF [{item_image@path}/nem] -->
+          <img
+            class="acms-img-responsive"
+            src="%{MEDIA_ARCHIVES_DIR}{item_image@path}[resizeImg(300)]"
+            width="300"
+            height="{item_image@ratio}[getHeightFromRatio(300)]"
+            alt="{item_image@alt}"
+          >
+        <!-- ELSE -->
+        <!-- BEGIN_MODULE Blog_Field id="BF_root" -->
+          <!-- BEGIN_IF [{noimage@path}/nem] -->
+          <img
+            class="acms-img-responsive"
+            src="%{MEDIA_ARCHIVES_DIR}{noimage@path}[resizeImg(300)]"
+            alt="{noimage@alt}"
+            width="300"
+            height="{noimage@ratio}[getHeightFromRatio(300)]"
+          >
+          <!-- ELSE -->
+          <img
+            class="acms-img-responsive"
+            data-src="/images/noimage.png"
+            alt="noimage画像"
+            width="300"
+            height="168"
+          />
+          <!-- END_IF -->
+        <!-- END_MODULE Blog_Field -->
+        <!-- END_IF -->
+      </div>
+    </template>
+    <template #footer>
+      <div class="modal-btn-wrap">
+        <button type="button" class="btn is-secondary" @click="setAdded(false)">買い物を続ける</button>
+        <a href="%{BASE_URL}cart/" class="btn">注文手続きに進む</a>
+      </div>
+    </template>
+  </modal>
+
+  ...
+</script>
+```
+
+</div>
+
+</template>
+
+---
+layout: heading-and-body
+title: モーダルの画像をスロットで動的化 その2
+---
+
+<template #heading>
+<h1 class="!text-3xl">
+モーダルの画像をスロットで動的化
+</h1>
+</template>
+
+<template #body>
+
+<div class="">
+
+```html {16}
+<!-- include/vue-template/add-to-cart.html -->
+<script id="AddToCart" type="text/x-template" class="check-csrf-token">
+  ...
+  <modal
+    :isOpen="added"
+    :onClose="() => setAdded(false)"
+    :closeTimeout="300"
+    aria-labelledby="shopping-cart-modal-title"
+    aria-describedby="shopping-cart-modal-content"
+  >
+    <template #header>
+      <h2 id="shopping-cart-modal-title" class="modal-title">「{{ title }}」をカートに追加しました</h2>
+    </template>
+    <template #default>
+      <div id="shopping-cart-modal-content" class="modal-img-wrap">
+        <slot name="success-modal-content"></slot>
+      </div>
+    </template>
+    <template #footer>
+      <div class="modal-btn-wrap">
+        <button type="button" class="btn is-secondary" @click="setAdded(false)">買い物を続ける</button>
+        <a href="%{BASE_URL}cart/" class="btn">注文手続きに進む</a>
+      </div>
+    </template>
+  </modal>
+
+  ...
+</script>
+```
+
+</div>
+
+</template>
+
+
+---
+layout: heading-and-body
+title: Entry_Summaryのentry:loopブロックで <add-to-cart></add-to-cart> を使う
+---
+
+<template #heading>
+<h1 class="!text-3xl">
+
+Entry_Summaryのentry:loopブロックで使う
+
+</h1>
+</template>
+
+<template #body>
+
+<div class="">
+
+```html {8-39|40-70}
+<!-- BEGIN entry:loop -->
+...
+<div class="js-shopping-cart">
+  <add-to-cart
+    :eid="{eid}"
+    :stock="<!-- BEGIN_IF [{item_stock}/isset] -->{item_stock}<!-- ELSE -->null<!-- END_IF -->"
+  >
+    <template #form-header>
+      <!-- BEGIN color:veil -->
+      <tr>
+        <th>色選択</th>
+        <td>
+          <select name="item_color">
+            <option value="">選択してください</option>
+            <!-- BEGIN color:loop -->
+            <option value="{color}">{color}</option>
+            <!-- END color:loop -->
+            <input type="hidden" name="field[]" value="item_color" />
+            <input type="hidden" name="item_color:validator#required" />
+          </select>
+        </td>
+      </tr>
+      <!-- END color:veil -->
+      <!-- BEGIN size:veil -->
+      <tr>
+        <th>サイズ</th>
+        <td>
+          <select name="item_size">
+            <option value="">選択してください</option>
+            <!-- BEGIN size:loop -->
+            <option value="{size}">{size}</option>
+            <!-- END size:loop -->
+            <input type="hidden" name="field[]" value="item_size" />
+            <input type="hidden" name="item_size:validator#required" />
+          </select>
+        </td>
+      </tr>
+      <!-- END size:veil -->
+    </template>
+    <template #success-modal-content>
+      <!-- BEGIN_IF [{item_image@path}/nem] -->
+      <img
+        class="acms-img-responsive"
+        src="%{MEDIA_ARCHIVES_DIR}{item_image@path}[resizeImg(300)]"
+        width="300"
+        height="{item_image@ratio}[getHeightFromRatio(300)]"
+        alt="{item_image@alt}"
+      >
+      <!-- ELSE -->
+      <!-- BEGIN_MODULE Blog_Field id="BF_root" -->
+        <!-- BEGIN_IF [{noimage@path}/nem] -->
+        <img
+          class="acms-img-responsive"
+          src="%{MEDIA_ARCHIVES_DIR}{noimage@path}[resizeImg(300)]"
+          alt="{noimage@alt}"
+          width="300"
+          height="{noimage@ratio}[getHeightFromRatio(300)]"
+        >
+        <!-- ELSE -->
+        <img
+          class="acms-img-responsive"
+          data-src="/images/noimage.png"
+          alt="noimage画像"
+          width="300"
+          height="168"
+        />
+        <!-- END_IF -->
+      <!-- END_MODULE Blog_Field -->
+      <!-- END_IF -->
+    </template>
+  </add-to-cart>
+</div>
+...
+<!-- END entry:loop -->
+```
+
+</div>
+
+</template>
+
+---
+layout: heading-and-body
+title: add-to-cart.htmlを読み込むのを忘れずに！
+---
+
+<template #heading>
+<h1 class="!text-3xl">
+
+add-to-cart.htmlを読み込むのを忘れずに！
+
+</h1>
+</template>
+
+<template #body>
+
+<div class="mt-20">
+
+```html
+<!-- include vue template -->
+@include("/include/vue-template/add-to-cart.html")
+
+<!-- BEGIN_MODULE Entry_Summary id="{{module_id}}" -->
+...
+<!-- END_MODULE Entry_Summary -->
+```
+
+</div>
+
+</template>
+
+---
+layout: section-title
+title: カスタマイズ後の動作確認
+class: text-center font-bold
+---
+
+# カスタマイズ後の動作確認 🔍
+
+---
+layout: section-title
+title: できた！
+class: text-center font-bold
+---
+
+# できた！🎉
 
 ---
 layout: section-title
@@ -491,233 +967,16 @@ class: text-center font-bold
 # ご清聴ありがとうございました🙇
 
 ---
-class: px-20
+layout: bubble-frame-only
+title: X（旧Twitter）やってます
 ---
-
-# Themes
-
-Slidev comes with powerful theming support. Themes can provide styles, layouts, components, or even configurations for tools. Switching between themes by just **one edit** in your frontmatter:
-
-<div grid="~ cols-2 gap-2" m="-t-2">
-
-```yaml
----
-theme: default
----
-```
-
-```yaml
----
-theme: seriph
----
-```
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true" alt="">
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true" alt="">
-
-</div>
-
-Read more about [How to use a theme](https://sli.dev/themes/use.html) and
-check out the [Awesome Themes Gallery](https://sli.dev/themes/gallery.html).
-
----
-preload: false
----
-
-# Animations
-
-Animations are powered by [@vueuse/motion](https://motion.vueuse.org/).
-
-```html
-<div
-  v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }">
-  Slidev
-</div>
-```
-
-<div class="w-60 relative mt-6">
-  <div class="relative w-40 h-40">
+<h1 class="font-bold !text-5xl"> X（旧Twitter）やってます！</h1>
+<div class="h-full w-full grid place-content-center">
+  <div>
     <img
-      v-motion
-      :initial="{ x: 800, y: -100, scale: 1.5, rotate: -50 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-square.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ y: 500, x: -100, scale: 2 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-circle.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ x: 600, y: 400, scale: 2, rotate: 100 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-triangle.png"
-      alt=""
-    />
-  </div>
-
-  <div
-    class="text-5xl absolute top-14 left-40 text-[#2B90B6] -z-1"
-    v-motion
-    :initial="{ x: -80, opacity: 0}"
-    :enter="{ x: 0, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
-    Slidev
+      src="/x-qr.png"
+      alt="X（旧Twitter）のQRコード"
+    >
   </div>
 </div>
 
-<!-- vue script setup scripts can be directly used in markdown, and will only affects current page -->
-<script setup lang="ts">
-const final = {
-  x: 0,
-  y: 0,
-  rotate: 0,
-  scale: 1,
-  transition: {
-    type: 'spring',
-    damping: 10,
-    stiffness: 20,
-    mass: 2
-  }
-}
-</script>
-
-<div
-  v-motion
-  :initial="{ x:35, y: 40, opacity: 0}"
-  :enter="{ y: 0, opacity: 1, transition: { delay: 3500 } }">
-
-[Learn More](https://sli.dev/guide/animations.html#motion)
-
-</div>
-
----
-
-# LaTeX
-
-LaTeX is supported out-of-box powered by [KaTeX](https://katex.org/).
-
-<br>
-
-Inline $\sqrt{3x-1}+(1+x)^2$
-
-Block
-$$ {1|3|all}
-\begin{array}{c}
-
-\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
-= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-
-\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
-
-\nabla \cdot \vec{\mathbf{B}} & = 0
-
-\end{array}
-$$
-
-<br>
-
-[Learn more](https://sli.dev/guide/syntax#latex)
-
----
-
-# Diagrams
-
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
-
-<div class="grid grid-cols-4 gap-5 pt-4 -mb-6">
-
-```mermaid {scale: 0.5, alt: 'A simple sequence diagram'}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
-```
-
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-
-```mermaid
-mindmap
-  root((mindmap))
-    Origins
-      Long history
-      ::icon(fa fa-book)
-      Popularisation
-        British popular psychology author Tony Buzan
-    Research
-      On effectivness<br/>and features
-      On Automatic creation
-        Uses
-            Creative techniques
-            Strategic planning
-            Argument mapping
-    Tools
-      Pen and paper
-      Mermaid
-```
-
-```plantuml {scale: 0.7}
-@startuml
-
-package "Some Group" {
-  HTTP - [First Component]
-  [Another Component]
-}
-
-node "Other Groups" {
-  FTP - [Second Component]
-  [First Component] --> FTP
-}
-
-cloud {
-  [Example 1]
-}
-
-
-database "MySql" {
-  folder "This is my folder" {
-    [Folder 3]
-  }
-  frame "Foo" {
-    [Frame 4]
-  }
-}
-
-
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
-
-@enduml
-```
-
-</div>
-
-[Learn More](https://sli.dev/guide/syntax.html#diagrams)
-
----
-src: ./pages/multiple-entries.md
-hide: false
----
-
----
-layout: center
-class: text-center
----
-
-# Learn More
-
-[Documentations](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev) · [Showcases](https://sli.dev/showcases.html)
