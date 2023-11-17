@@ -132,20 +132,6 @@ title: 料金について
 
 </template>
 
----
-layout: image-left
-image: /how-to-download.png
-equal: true
-title: ダウンロード
----
-
-<div class="text-center">
-  <h1 class="font-medium leading-relaxed">
-  <a href="https://developer.a-blogcms.jp/document/ec-cart/Install.html" target="_blank" rel="noopener noreferrer">
-    ダウンロード <light-icon icon="download" size="48px"/>
-  </a>
-  </h1>
-</div>
 
 ---
 layout: image-left
@@ -222,14 +208,17 @@ class: text-center
 <h1 class="font-bold">実装方法紹介します🙌</h1>
 
 ---
-layout: section-title
+layout: bubble-frame-only
 title: 完成品デモ
-class: text-center
 ---
 
-<h1 class="font-bold">完成品デモ</h1>
+<style>
+  p {
+    margin: 0 !important;
+  }
+</style>
 
-<!-- 動画でデモしたいかも -->
+<video src="/demo/goal.mov" class="h-full w-[800px] m-auto" loop controls autoplay muted ></video>
 
 ---
 layout: section-title
@@ -299,6 +288,7 @@ title: 「カートに入れる」ボタン
 <div class="js-shopping-cart">
   <add-to-cart
     :eid="{entry:loop.eid}"
+    title="{title}"
     <!-- BEGIN_IF [{item_stock}/isset] -->
     :stock="{item_stock}"
     <!-- ELSE -->
@@ -352,9 +342,7 @@ title: <add-to-cart></add-to-cart>の説明
 
 <template #heading>
 <h1 class="!text-3xl">
-
-  `<add-to-cart></add-to-cart>`
-
+include/vue-template/add-to-cart.html
 </h1>
 </template>
 
@@ -362,9 +350,9 @@ title: <add-to-cart></add-to-cart>の説明
 
 <div class="mt-20 text-2xl">
 
-`<add-to-cart :eid="{eid}" :stock="{stock}"></add-to-cart>` が include/vue-template/add-to-cart.html で定義されているHTMLに置き換わる
+- `<add-to-cart></add-to-cart>` で表示されるHTMLを定義しているファイル
 
-`:eid` 属性に指定されたエントリーIDが次の input 要素を生成
+- `:eid` 属性に指定されたエントリーIDが次の input 要素を生成
 
 ```html {2}
 <!-- 例えば :eidが42の場合 -->
@@ -372,7 +360,7 @@ title: <add-to-cart></add-to-cart>の説明
 <input type="hidden" name="cart[]" value="eid">
 ```
 
-このフォームで、ShoppingCart_AddItem モジュールを実行すると、エントリーIDが42の商品が、カートに追加される
+- このフォームで、ShoppingCart_AddItem モジュールを実行すると、エントリーIDが42の商品が、カートに追加される
 
 </div>
 
@@ -394,6 +382,7 @@ Entry_Summary の場合、<br />entry:loop で {eid} を <code>:eid</code> 属�
 <div class="js-shopping-cart">
   <add-to-cart
     :eid="{eid}"
+    title="{title}"
     <!-- BEGIN_IF [{item_stock}/isset] -->
     :stock="{item_stock}"
     <!-- ELSE -->
@@ -407,11 +396,25 @@ Entry_Summary の場合、<br />entry:loop で {eid} を <code>:eid</code> 属�
 
 ---
 layout: section-title
+title: やってみる
+class: text-center font-bold
+---
+
+# やってみる ✌
+
+---
+layout: bubble-frame-only
 title: 動画でできなかった場合のデモ
 class: text-center
 ---
 
-# 動画でできなかった場合のデモを見せたい
+<style>
+  p {
+    margin: 0 !important;
+  }
+</style>
+
+<video src="/demo/bad.mov" class="h-full w-[800px] m-auto" loop controls autoplay muted ></video>
 
 ---
 layout: heading-and-body
@@ -635,8 +638,8 @@ title: 色とサイズの項目をスロットで動的化 その2
 <!-- include/vue-template/add-to-cart.html -->
 <script id="AddToCart" type="text/x-template" class="check-csrf-token">
   <form ref="form" @submit.prevent="addToCart">
-    <div class="entry-price-bottom-box">
-      <table v-if="remain > 0" class="entry-item-select-table">
+    <div>
+      <table v-if="remain > 0" class="add-to-cart-table">
         <slot name="form-header"></slot>
         <tr>
           <th>個数</th>
@@ -812,7 +815,12 @@ Entry_Summaryのentry:loopブロックで使う
 <div class="js-shopping-cart">
   <add-to-cart
     :eid="{eid}"
-    :stock="<!-- BEGIN_IF [{item_stock}/isset] -->{item_stock}<!-- ELSE -->null<!-- END_IF -->"
+    title="{title}"
+    <!-- BEGIN_IF [{item_stock}/isset] -->
+    :stock="{item_stock}"
+    <!-- ELSE -->
+    :stock="null"
+    <!-- END_IF -->
   >
     <template #form-header>
       <!-- BEGIN color:veil -->
@@ -940,6 +948,15 @@ class: text-center font-bold
 ---
 
 # まとめ
+
+---
+layout: section-title
+title: 一覧からカートに商品を追加するボタンで、ECサイトのユーザビリティ、そして売上をアップさせよう！
+class: text-center font-bold
+---
+
+<h1 class="!text-3xl !leading-10">一覧からカートに商品を追加するボタンで、、<br />ECサイトのユーザビリティ、そして売上をアップさせよう！💸</h1>
+
 
 ---
 layout: section-title
