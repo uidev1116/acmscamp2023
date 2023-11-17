@@ -554,9 +554,14 @@ class: px-20
 <h2 class="font-bold">できない🙅</h2>
 
 
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true" alt="">
+<ul class="mt-8">
+  <li>カートに追加</li>
+</ul>
 
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true" alt="">
+<ul class="mt-8">
+  <li>色とサイズのフォーム項目を動的表示</li>
+  <li>カートへの商品の追加が成功したときに表示されるモーダル内の画像を動的表示</li>
+</ul>
 
 </div>
 
